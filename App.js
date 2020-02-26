@@ -13,19 +13,25 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import Feed from './src/main/screens/tabs/Feed';
 import Search from './src/main/screens/tabs/Search';
 import ItemDetail from './src/main/screens/ItemDetail';
+import {Provider} from 'react-redux';
+import store from './src/main/store';
+import {AsyncStorage} from 'react-native';
 
 const RootStack = createStackNavigator();
 const BottomTabs = createMaterialBottomTabNavigator();
 const FeedStack = createStackNavigator();
-
-import {Provider} from 'react-redux';
-import store from './src/main/store';
+const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 function FeedStackScreen() {
     return (
         <FeedStack.Navigator>
-            <FeedStack.Screen name="Feedxd" component={Feed}/>
-            <FeedStack.Screen name="Detail" component={ItemDetail}/>
+            <FeedStack.Screen
+                name="Feedxd"
+                component={Feed}/>
+            <FeedStack.Screen
+                name="Detail"
+                component={ItemDetail}
+            />
         </FeedStack.Navigator>
     );
 }
@@ -47,15 +53,42 @@ function Tabs() {
     );
 }
 
-export default class App extends React.Component {
-    constructor() {
-        super();
-    }
+/**
+ * @return {null}
+ * @return {null}
+ */
 
-    render() {
+export default function App() {
+    const [isReady, setIsReady] = React.useState(false);
+    const [initialState, setInitialState] = React.useState();
+
+    React.useEffect(() => {
+        const restoreState = async () => {
+            try {
+                const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+                const state = JSON.parse(savedStateString);
+
+                setInitialState(state);
+            } finally {
+                setIsReady(true);
+            }
+        };
+
+        if (!isReady) {
+            // noinspection JSIgnoredPromiseFromCall
+            restoreState();
+        }
+    }, [isReady]);
+
+    if (!isReady) {
+        return null;
+    } else {
         return (
             <Provider store={store}>
-                <NavigationContainer>
+                <NavigationContainer
+                    onStateChange={state =>
+                        AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+                    }>
                     <RootStack.Navigator headerMode="none">
                         <RootStack.Screen name="XD" children={Tabs}/>
                     </RootStack.Navigator>
