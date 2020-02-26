@@ -1,16 +1,39 @@
-import {DELETE_PERSON, FETCH_PEOPLE} from '../actions/types';
+import {FETCH_PEOPLE, PEOPLE_FAIL, PEOPLE_SUCCESS} from '../actions/types';
 
 const initialState = {
     peopleResult: [],
 };
 
 const peopleReducer = (state = initialState, action) => {
+    console.log('En el reducer', state);
     switch (action.type) {
         case FETCH_PEOPLE:
-            break;
-        case DELETE_PERSON:
-            break;
+            return {
+                ...state,
+                loading: true,
+            };
+        case PEOPLE_SUCCESS:
+            return {...state, loading: false, peopleResult: action.payload.data};
+        case PEOPLE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: 'Error while fetching star wars characters',
+            };
         default:
             return state;
     }
 };
+
+export function listOfPersons() {
+    return {
+        types: [FETCH_PEOPLE, PEOPLE_SUCCESS, PEOPLE_FAIL],
+        payload: {
+            request: {
+                url: `/people`,
+            },
+        },
+    };
+}
+
+export default peopleReducer;

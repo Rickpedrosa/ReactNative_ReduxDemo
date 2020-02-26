@@ -18,6 +18,9 @@ const RootStack = createStackNavigator();
 const BottomTabs = createMaterialBottomTabNavigator();
 const FeedStack = createStackNavigator();
 
+import {Provider} from 'react-redux';
+import store from './src/main/store';
+
 function FeedStackScreen() {
     return (
         <FeedStack.Navigator>
@@ -51,11 +54,13 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <NavigationContainer>
-                <RootStack.Navigator headerMode="none">
-                    <RootStack.Screen name="XD" children={Tabs}/>
-                </RootStack.Navigator>
-            </NavigationContainer>
+            <Provider store={store}>
+                <NavigationContainer>
+                    <RootStack.Navigator headerMode="none">
+                        <RootStack.Screen name="XD" children={Tabs}/>
+                    </RootStack.Navigator>
+                </NavigationContainer>
+            </Provider>
         );
     }
 }
