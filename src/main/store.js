@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import peopleReducer from './reducers/peopleReducer';
+import people from './reducers/people';
 import axiosMiddleware from 'redux-axios-middleware';
 
 const rootReducer = combineReducers({
-    people: peopleReducer,
+    people: people,
 });
 
 const axiosInterceptor = axios.create({

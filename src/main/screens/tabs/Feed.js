@@ -2,17 +2,16 @@ import React, {Component} from 'react';
 import {View, Text, FlatList, ActivityIndicator, TouchableHighlight} from 'react-native';
 
 import {styles} from '../../styles/styles.js';
-import {listOfPersons} from '../../reducers/peopleReducer';
+import {listOfPersons} from '../../reducers/people';
 import {connect} from 'react-redux';
 
 class Feed extends Component {
     // constructor(props) {
     //     super(props);
-    //     console.log('feed props', this.props);
+    //     this.props.navigation.setOptions({title: 'PEPEGA'});
     // }
 
     render() {
-        console.log('En el render de Feed', this.props);
         if (this.props.loading) {
             return (<View style={{flex: 1, padding: 20, justifyContent: 'center'}}>
                 <ActivityIndicator/>
@@ -45,7 +44,7 @@ const mapStateToProps = state => {
     return {
         starWarsPeople: state.people.peopleResult.results,
         loading: state.people.loading,
-        error: state.people.error
+        error: state.people.error,
     };
 };
 

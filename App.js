@@ -16,33 +16,35 @@ import ItemDetail from './src/main/screens/ItemDetail';
 import {Provider} from 'react-redux';
 import store from './src/main/store';
 import {AsyncStorage} from 'react-native';
+import {Text} from 'react-native-paper';
 
 const RootStack = createStackNavigator();
 const BottomTabs = createMaterialBottomTabNavigator();
 const FeedStack = createStackNavigator();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
-function FeedStackScreen() {
-    return (
-        <FeedStack.Navigator>
-            <FeedStack.Screen
-                name="Feedxd"
-                component={Feed}/>
-            <FeedStack.Screen
-                name="Detail"
-                component={ItemDetail}
-            />
-        </FeedStack.Navigator>
-    );
-}
+// function FeedStackScreen() {
+//     return (
+//         <FeedStack.Navigator headerMode="none">
+//             <FeedStack.Screen
+//                 name="Feedxd"
+//                 component={Feed}/>
+//         </FeedStack.Navigator>
+//     );
+// }
 
 function Tabs() {
     return (
         <BottomTabs.Navigator>
             <BottomTabs.Screen
-                name="Feed"
-                component={FeedStackScreen}
-                options={{tabBarLabel: 'Feed!'}}
+                name="People"
+                component={Feed}
+                options={{tabBarLabel: 'People!'}}
+            />
+            <BottomTabs.Screen
+                name="Worlds"
+                component={Feed}
+                options={{tabBarLabel: 'Worlds!'}}
             />
             <BottomTabs.Screen
                 name="Search"
@@ -80,6 +82,19 @@ export default function App() {
         }
     }, [isReady]);
 
+    function getHeaderTitle(route) {
+        const routeName = route.state
+            ? route.state.routes[route.state.index].name
+            : route.params?.screen || 'People';
+
+        switch (routeName) {
+            case 'People':
+                return 'People';
+            case 'Worlds':
+                return 'Worlds';
+        }
+    }
+
     if (!isReady) {
         return null;
     } else {
@@ -89,8 +104,19 @@ export default function App() {
                     onStateChange={state =>
                         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
                     }>
-                    <RootStack.Navigator headerMode="none">
-                        <RootStack.Screen name="XD" children={Tabs}/>
+                    <RootStack.Navigator>
+                        <RootStack.Screen
+                            name="XD"
+                            children={Tabs}
+                            options={({
+                                          route,
+                                      }) => ({
+                                headerTitle: <Text>{getHeaderTitle(route)}</Text>,
+                            })}/>
+                        <RootStack.Screen
+                            name="Detail"
+                            component={ItemDetail}
+                        />
                     </RootStack.Navigator>
                 </NavigationContainer>
             </Provider>

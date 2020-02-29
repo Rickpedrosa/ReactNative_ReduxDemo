@@ -4,8 +4,7 @@ const initialState = {
     peopleResult: [],
 };
 
-const peopleReducer = (state = initialState, action) => {
-    console.log('En el reducer', state);
+const people = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_PEOPLE:
             return {
@@ -36,4 +35,4 @@ export function listOfPersons() {
     };
 }
 
-export default peopleReducer;
+export default people;

@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 36,
+        fontSize: 20,
+        paddingHorizontal: 8,
         marginBottom: 16,
     },
     androidButtonText: {
