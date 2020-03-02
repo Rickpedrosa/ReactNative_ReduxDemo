@@ -1,4 +1,4 @@
 export const FETCH_PEOPLE = 'FETCH_PEOPLE';
 export const PEOPLE_SUCCESS = 'PEOPLE_SUCCESS';
 export const PEOPLE_FAIL = 'PEOPLE_FAIL';
-export const DELETE_PERSON = 'DELETE_PERSON';
+export const ON_REFRESHED = 'ON_REFRESHED';

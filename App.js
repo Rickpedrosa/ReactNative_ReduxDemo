@@ -17,6 +17,7 @@ import {Provider} from 'react-redux';
 import store from './src/main/store';
 import {AsyncStorage} from 'react-native';
 import {Text} from 'react-native-paper';
+import Messages from './src/main/screens/tabs/Messages';
 
 const RootStack = createStackNavigator();
 const BottomTabs = createMaterialBottomTabNavigator();
@@ -37,14 +38,14 @@ function Tabs() {
     return (
         <BottomTabs.Navigator>
             <BottomTabs.Screen
+                name="Worlds"
+                component={Messages}
+                options={{tabBarLabel: 'Worlds!'}}
+            />
+            <BottomTabs.Screen
                 name="People"
                 component={Feed}
                 options={{tabBarLabel: 'People!'}}
-            />
-            <BottomTabs.Screen
-                name="Worlds"
-                component={Feed}
-                options={{tabBarLabel: 'Worlds!'}}
             />
             <BottomTabs.Screen
                 name="Search"
@@ -85,7 +86,7 @@ export default function App() {
     function getHeaderTitle(route) {
         const routeName = route.state
             ? route.state.routes[route.state.index].name
-            : route.params?.screen || 'People';
+            : route.params?.screen || 'Worlds';
 
         switch (routeName) {
             case 'People':
